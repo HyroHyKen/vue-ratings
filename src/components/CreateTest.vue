@@ -23,6 +23,17 @@
 </template>
 
 <script>
+let db = '';
+let openRequest = indexedDB.open('db', 3);
+openRequest.onupgradeneeded = function(){
+  db = openRequest.result;
+  if (!db.objectStoreNames.contains('controle')){
+    db.createObjectStore('controle', {keyPath: 'id', autoIncrement: true});
+  }
+};
+openRequest.onerror = function(){
+  alert('Impossible d\'accéder à IndexedDB');
+};
 export default {
   name: "CreateTest",
   data() {
@@ -39,18 +50,7 @@ export default {
     addNewTest() {
       if(this.nameTest && this.criterions.length) {
         this.formOk = true;
-        let db = '';
-        let openRequest = indexedDB.open('db', 3);
-        openRequest.onupgradeneeded = function(){
-          db = openRequest.result;
-          //Si l'objet de stockage users n'existe pas, on le crée
-          if (!db.objectStoreNames.contains('controle')){
-            db.createObjectStore('controle', {keyPath: 'id', autoIncrement: true});
-          }
-        };
-        openRequest.onerror = function(){
-          alert('Impossible d\'accéder à IndexedDB');
-        };
+
 
         db = openRequest.result;
         let transaction = db.transaction('controle', 'readwrite');
@@ -73,6 +73,7 @@ export default {
         this.criterions = [];
         this.criterion = '';
         this.nameTest = '';
+
       }else{
         this.formOk = false;
       }

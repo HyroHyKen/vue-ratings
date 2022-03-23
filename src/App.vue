@@ -1,7 +1,8 @@
 <template>
   <nav>
-    <router-link to="/">Accueil</router-link>
-    <router-link to="/administration/evaluation">Créer une évaluation</router-link>
+    <router-link class="nav" to="/">Accueil</router-link>
+    <router-link class="nav" to="/administration/evaluation">Créer une évaluation</router-link>
+    <router-link class="nav" to="/administration/personne">Créer une liste de personne</router-link>
   </nav>
   <router-view></router-view>
 </template>
@@ -17,6 +18,9 @@ export default {
 </script>
 
 <style>
+.nav{
+  margin-left: 10px;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
