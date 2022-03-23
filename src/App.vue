@@ -1,7 +1,7 @@
 <template>
   <nav>
     <router-link to="/">Accueil</router-link>
-    <router-link to="/administration">admin</router-link>
+    <router-link to="/administration/evaluation">Créer une évaluation</router-link>
   </nav>
   <router-view></router-view>
 </template>

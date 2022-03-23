@@ -3,7 +3,7 @@ import CreateTest from "@/components/CreateTest";
 
 const routes = [
     // will match everything and put it under `$route.params.pathMatch`
-    { path: '/administration', name: 'admin', component: CreateTest },
+    { path: '/administration/evaluation', name: 'admin', component: CreateTest },
     // will match anything starting with `/user-` and put it under `$route.params.afterUser`
 
 ]
