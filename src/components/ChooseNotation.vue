@@ -18,13 +18,14 @@
 <script>
 import Localbase from 'localbase'
 import { uuid } from 'vue-uuid';
+import * as fonction from '../function.js'
 let db = new Localbase('db')
 export default {
   name: "ChooseNotation",
   data() {
     return {
-      selectedTest: [],
-      selectedPerson: [],
+      selectedTest: "",
+      selectedPerson: "",
       listTest: [],
       listPerson: [],
       formOk: true
@@ -32,16 +33,17 @@ export default {
   },
   methods: {
    createEvaluation(){
-     if(this.listPerson.length && this.nameList) {
+     console.log(this.selectedTest)
+     if(this.selectedTest !=="" && this.selectedPerson !== "") {
        this.formOk = true;
-       let val = deserialize(this.selectedPerson.persons);
+       let val = fonction.deserialize(this.selectedPerson.persons);
        let group = [];
 
        for (let test in val) {
          group.push({
            name: val[test].name,
            firstName: val[test].firstName,
-           mark: deserialize(this.selectedTest.notation)
+           mark: fonction.deserialize(this.selectedTest.notation)
          });
 
        }
@@ -50,7 +52,7 @@ export default {
          id: uuid.v1(),
          nameTest: this.selectedTest.name,
          nameListPerson: this.selectedPerson.name,
-         listPerson: serialize(group)
+         listPerson: fonction.serialize(group)
 
        };
        db.collection('evaluation').add(evaluation)
@@ -74,32 +76,7 @@ export default {
   }
 
 }
-function serialize(value) {
-  if (typeof value === 'function') {
-    return value.toString();
-  }
-  if (typeof value === 'object') {
-    var serializeObject = {};
-    for (const [objectKey, objectValue] of Object.entries(value)) {
-      serializeObject[objectKey] = serialize(objectValue);
-    }
-    return serializeObject;
-  }
 
-  return value;
-}
-function deserialize(valueNew) {
-
-  if (typeof valueNew === 'object') {
-    var deserializeObject = {};
-    for (const [objectKey, objectValue] of Object.entries(valueNew)) {
-      deserializeObject[objectKey] = deserialize(objectValue);
-    }
-    return deserializeObject;
-  }
-
-  return valueNew;
-}
 </script>
 
 <style scoped>

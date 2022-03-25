@@ -21,6 +21,7 @@
 <script>
 import Localbase from 'localbase'
 import { uuid } from 'vue-uuid';
+import * as fonction from '../function.js'
 let db = new Localbase('db')
 export default {
   name: "ImportPerson",
@@ -56,7 +57,7 @@ export default {
         let person = {
           id: uuid.v1(),
           name: this.nameList,
-          persons: serialize(this.listPerson)
+          persons: fonction.serialize(this.listPerson)
 
         }
         db.collection('person').add(person)
@@ -76,20 +77,6 @@ export default {
     }
 
   },
-}
-function serialize(value) {
-  if (typeof value === 'function') {
-    return value.toString();
-  }
-  if (typeof value === 'object') {
-    var serializeObject = {};
-    for (const [objectKey, objectValue] of Object.entries(value)) {
-      serializeObject[objectKey] = serialize(objectValue);
-    }
-    return serializeObject;
-  }
-
-  return value;
 }
 </script>
 

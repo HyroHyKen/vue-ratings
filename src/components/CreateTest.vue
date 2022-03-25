@@ -25,6 +25,7 @@
 <script>
 import Localbase from 'localbase'
 import { uuid } from 'vue-uuid';
+import * as fonction from '../function.js'
 let db = new Localbase('db')
 export default {
   name: "CreateTest",
@@ -47,7 +48,7 @@ export default {
         let test = {
           id:  uuid.v1(),
           name: this.nameTest,
-          notation: serialize(this.criterions)
+          notation: fonction.serialize(this.criterions)
         };
         db.collection('evaluationModel').add(test)
 
@@ -73,28 +74,8 @@ export default {
     removeCriterion(item){
       this.criterions.splice(this.criterions.indexOf(item), 1)
     }
-
   },
-
-
 }
-// eslint-disable-next-line no-unused-vars
-function serialize(value) {
-  if (typeof value === 'function') {
-    return value.toString();
-  }
-  if (typeof value === 'object') {
-    var serializeObject = {};
-    for (const [objectKey, objectValue] of Object.entries(value)) {
-      serializeObject[objectKey] = serialize(objectValue);
-    }
-    return serializeObject;
-  }
-
-  return value;
-}
-
-
 </script>
 
 <style scoped>

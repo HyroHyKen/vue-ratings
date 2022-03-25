@@ -23,6 +23,7 @@
 
 <script>
 import Localbase from 'localbase'
+import * as fonction from '../function.js'
 let db = new Localbase('db')
 export default {
   name: "DoNotation",
@@ -40,44 +41,19 @@ export default {
     //pour recuperer l'id de l'évaluation
       begin(id){
         db.collection('evaluation').doc({ id: id }).get().then(document => {
-         this.evaluation = deserialize(document)
+         this.evaluation = fonction.deserialize(document)
         })
       },
     choosePerson(index){
       this.selected = index
     },
     save(id){
-      db.collection('evaluation').doc({ id: id }).update(serialize(this.evaluation))
+      db.collection('evaluation').doc({ id: id }).update(fonction.serialize(this.evaluation))
     }
   }
 
 }
-function serialize(value) {
-  if (typeof value === 'function') {
-    return value.toString();
-  }
-  if (typeof value === 'object') {
-    var serializeObject = {};
-    for (const [objectKey, objectValue] of Object.entries(value)) {
-      serializeObject[objectKey] = serialize(objectValue);
-    }
-    return serializeObject;
-  }
 
-  return value;
-}
-function deserialize(valueNew) {
-
-  if (typeof valueNew === 'object') {
-    var deserializeObject = {};
-    for (const [objectKey, objectValue] of Object.entries(valueNew)) {
-      deserializeObject[objectKey] = deserialize(objectValue);
-    }
-    return deserializeObject;
-  }
-
-  return valueNew;
-}
 </script>
 
 <style scoped>
