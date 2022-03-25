@@ -11,6 +11,7 @@
     <option v-for="person in listPerson" :key="person.id" v-bind:value="person">{{ person.name }}</option>
   </select>
   <p v-else>aucune liste de personne</p>
+  <p v-if="!formOk" style="color: red; font-style: italic;">Veuillez choisir une évaluation et un groupe de personne</p>
   <button @click="createEvaluation">Valider</button>
 </template>
 
@@ -26,33 +27,39 @@ export default {
       selectedPerson: [],
       listTest: [],
       listPerson: [],
-
-
+      formOk: true
     }
   },
   methods: {
    createEvaluation(){
+     if(this.listPerson.length && this.nameList) {
+       this.formOk = true;
+       let val = deserialize(this.selectedPerson.persons);
+       let group = [];
 
-    let val = deserialize(this.selectedPerson.persons);
-    let group = [];
+       for (let test in val) {
+         group.push({
+           name: val[test].name,
+           firstName: val[test].firstName,
+           mark: deserialize(this.selectedTest.notation)
+         });
 
-     for (let test in val) {
-       group.push({name: val[test].name, firstName: val[test].firstName, mark : deserialize(this.selectedTest.notation)});
+       }
 
+       let evaluation = {
+         id: uuid.v1(),
+         nameTest: this.selectedTest.name,
+         nameListPerson: this.selectedPerson.name,
+         listPerson: serialize(group)
+
+       };
+       db.collection('evaluation').add(evaluation)
+       console.log(evaluation);
+       this.selectedTest = [];
+       this.selectedPerson = [];
+     }else {
+         this.formOk = false;
      }
-
-     let evaluation = {
-       id: uuid.v1(),
-       nameTest: this.selectedTest.name,
-       nameListPerson: this.selectedPerson.name,
-       listPerson: serialize(group)
-
-     };
-     db.collection('evaluation').add(evaluation)
-     console.log(evaluation);
-     this.selectedTest =[];
-     this.selectedPerson=[];
-
    }
   },
   created(){

@@ -40,6 +40,7 @@ export default {
   },
   methods: {
     addNewTest() {
+      //test de la validite du formulaire
       if(this.nameTest && this.criterions.length) {
         this.formOk = true;
 
@@ -49,6 +50,7 @@ export default {
           notation: serialize(this.criterions)
         };
         db.collection('evaluationModel').add(test)
+
         this.criterions = [];
         this.criterion = '';
         this.nameTest = '';
@@ -61,8 +63,8 @@ export default {
     addCriterion() {
       if(this.criterion) {
         this.formOkCriterion = true;
-        this.criterions.push({name: this.criterion, note: 0 })
 
+        this.criterions.push({name: this.criterion, note: 0 })
         this.criterion = ''
       }else{
         this.formOkCriterion = false;

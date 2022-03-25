@@ -13,6 +13,8 @@
     </li>
   </ul>
   <p v-else>aucun critère</p>
+  <p v-if="!formOk" style="color: red; font-style: italic;">Veuillez entrer un nom et des personnes pour ajouter une liste de personne</p>
+  <p v-if="!formOkPerson" style="color: red; font-style: italic;">Veuillez entrer un nom et un prénom pour ajouter une personne</p>
   <button @click="importPerson">Importer la liste</button>
 </template>
 
@@ -27,29 +29,29 @@ export default {
       name: '',
       firstName: '',
       listPerson: [],
-      nameList: ''
-
+      nameList: '',
+      formOkPerson: true,
+      formOk: true
 
     }
   },
   methods: {
     addNewPerson() {
       if(this.name && this.firstName) {
-        this.formOk = true;
+        this.formOkPerson = true;
 
         this.listPerson.push({name: this.name, firstName: this.firstName})
 
         this.name = '';
         this.firstName = '';
       }else{
-        this.formOk = false;
+        this.formOkPerson = false;
       }
 
     },
     importPerson() {
       if(this.listPerson.length && this.nameList) {
         this.formOk = true;
-
 
         let person = {
           id: uuid.v1(),
