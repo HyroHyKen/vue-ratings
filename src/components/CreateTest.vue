@@ -23,17 +23,8 @@
 </template>
 
 <script>
-let db = '';
-let openRequest = indexedDB.open('db', 3);
-openRequest.onupgradeneeded = function(){
-  db = openRequest.result;
-  if (!db.objectStoreNames.contains('controle')){
-    db.createObjectStore('controle', {keyPath: 'id', autoIncrement: true});
-  }
-};
-openRequest.onerror = function(){
-  alert('Impossible d\'accéder à IndexedDB');
-};
+import Localbase from 'localbase'
+let db = new Localbase('db')
 export default {
   name: "CreateTest",
   data() {
@@ -52,24 +43,13 @@ export default {
         this.formOk = true;
 
 
-        db = openRequest.result;
-        let transaction = db.transaction('controle', 'readwrite');
 
-        let tests = transaction.objectStore('controle');
 
         let test = {
           name: this.nameTest,
           notation: serialize(this.criterions)
         };
-        console.log(test)
-        let ajout = tests.add(test);
-
-        ajout.onsuccess = function () {
-          alert('Evalution ajoutée');
-        };
-        ajout.onerror = function () {
-          alert('Erreur : ' + ajout.error);
-        };
+        db.collection('evaluation').add(test)
         this.criterions = [];
         this.criterion = '';
         this.nameTest = '';
@@ -97,6 +77,7 @@ export default {
 
 
 }
+// eslint-disable-next-line no-unused-vars
 function serialize(value) {
   if (typeof value === 'function') {
     return value.toString();

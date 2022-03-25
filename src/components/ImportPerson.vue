@@ -15,18 +15,8 @@
 </template>
 
 <script>
-let db = '';
-let openRequest = indexedDB.open('db2', 3);
-openRequest.onupgradeneeded = function(){
-  db = openRequest.result;
-  console.log(db)
-  if (!db.objectStoreNames.contains('person')){
-    db.createObjectStore('person', {keyPath: 'id', autoIncrement: true});
-  }
-};
-openRequest.onerror = function(){
-  alert('Impossible d\'accéder à IndexedDB');
-};
+import Localbase from 'localbase'
+let db = new Localbase('db')
 export default {
   name: "ImportPerson",
   data() {
@@ -57,23 +47,12 @@ export default {
         this.formOk = true;
 
 
-        db = openRequest.result;
-        let transaction = db.transaction('person', 'readwrite');
-
-        let tests = transaction.objectStore('person');
 
 
-        let ajout = tests.add(serialize(this.listPerson));
+        db.collection('person').add(serialize(this.listPerson))
 
-        ajout.onsuccess = function () {
-          alert('liste de personne ajoutée');
-        };
-        ajout.onerror = function () {
-          alert('Erreur : ' + ajout.error);
-        };
-        this.listPerson = [];
-        this.name = '';
-        this.firstName = '';
+
+
 
       }else{
         this.formOk = false;
