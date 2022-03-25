@@ -1,49 +1,97 @@
 <template>
-  <button @click="getTest">test</button>
-
-
-
-  <select v-model="selected" v-if="listTest.length">
+  <label> Choisir une évaluation : </label>
+  <select v-model="selectedTest" v-if="listTest.length">
     <option disabled value="">Choisissez</option>
-    <option v-for="(test,id) in listTest" :key="test.id" v-bind:value="id">{{ test.name }}</option>
+    <option v-for="test in listTest" :key="test.id" v-bind:value="test">{{ test.name }}</option>
   </select>
   <p v-else>aucune élavaluation</p>
+  <label> Choisir un groupe de personne : </label>
+  <select v-model="selectedPerson" v-if="listTest.length">
+    <option disabled value="">Choisissez</option>
+    <option v-for="person in listPerson" :key="person.id" v-bind:value="person">{{ person.name }}</option>
+  </select>
+  <p v-else>aucune liste de personne</p>
+  <button @click="createEvaluation">Valider</button>
 </template>
 
 <script>
 import Localbase from 'localbase'
+import { uuid } from 'vue-uuid';
 let db = new Localbase('db')
 export default {
   name: "ChooseNotation",
   data() {
     return {
-      selected:[],
+      selectedTest: [],
+      selectedPerson: [],
       listTest: [],
-      listPerson: 'dd',
+      listPerson: [],
 
 
     }
   },
   methods: {
-    add(list){
-      this.listTest = list;
-    },
-    getTest(){
+   createEvaluation(){
 
+    let val = deserialize(this.selectedPerson.persons);
+    let group = [];
 
+     for (let test in val) {
+       group.push({name: val[test].name, firstName: val[test].firstName, mark : deserialize(this.selectedTest.notation)});
 
-    }
+     }
+
+     let evaluation = {
+       id: uuid.v1(),
+       nameTest: this.selectedTest.name,
+       nameListPerson: this.selectedPerson.name,
+       listPerson: serialize(group)
+
+     };
+     db.collection('evaluation').add(evaluation)
+     console.log(evaluation);
+     this.selectedTest =[];
+     this.selectedPerson=[];
+
+   }
   },
-  created: async function(){
+  created(){
 
-
-    db.collection('evaluation').get().then(tests => {
+    db.collection('evaluationModel').get().then(tests => {
       this.listTest = tests
     })
+    db.collection('person').get().then(persons => {
+      this.listPerson = persons
+    })
 
-    console.log(this.listTest);
   }
 
+}
+function serialize(value) {
+  if (typeof value === 'function') {
+    return value.toString();
+  }
+  if (typeof value === 'object') {
+    var serializeObject = {};
+    for (const [objectKey, objectValue] of Object.entries(value)) {
+      serializeObject[objectKey] = serialize(objectValue);
+    }
+    return serializeObject;
+  }
+
+  return value;
+}
+function deserialize(valueNew) {
+
+  if (typeof valueNew === 'object') {
+    var deserializeObject = {};
+    for (const [objectKey, objectValue] of Object.entries(valueNew)) {
+      deserializeObject[objectKey] = deserialize(objectValue);
+    }
+    return deserializeObject;
+  }
+
+  return valueNew;
 }
 </script>
 

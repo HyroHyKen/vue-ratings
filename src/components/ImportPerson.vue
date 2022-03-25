@@ -1,4 +1,6 @@
 <template>
+  <input v-model="nameList"
+         placeholder="Nom de la liste">
   <input v-model="name"
          placeholder="nom de la perosnne">
   <input v-model="firstName"
@@ -16,6 +18,7 @@
 
 <script>
 import Localbase from 'localbase'
+import { uuid } from 'vue-uuid';
 let db = new Localbase('db')
 export default {
   name: "ImportPerson",
@@ -24,6 +27,7 @@ export default {
       name: '',
       firstName: '',
       listPerson: [],
+      nameList: ''
 
 
     }
@@ -43,16 +47,23 @@ export default {
 
     },
     importPerson() {
-      if(this.listPerson.length) {
+      if(this.listPerson.length && this.nameList) {
         this.formOk = true;
 
 
+        let person = {
+          id: uuid.v1(),
+          name: this.nameList,
+          persons: serialize(this.listPerson)
+
+        }
+        db.collection('person').add(person)
 
 
-        db.collection('person').add(serialize(this.listPerson))
-
-
-
+        this.name = '';
+        this.firstName = '';
+        this.nameList = '';
+        this.listPerson = [];
 
       }else{
         this.formOk = false;

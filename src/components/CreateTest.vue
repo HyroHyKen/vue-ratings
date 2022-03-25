@@ -10,7 +10,7 @@
   <button @click="addCriterion"> ajouter </button>
   <ul v-if="criterions.length">
     <li v-for="criter in criterions" :key="criter.id">
-      {{ criter }}
+      {{ criter.name }}
       <button @click="removeCriterion(criter)"> supprimer</button>
     </li>
   </ul>
@@ -24,6 +24,7 @@
 
 <script>
 import Localbase from 'localbase'
+import { uuid } from 'vue-uuid';
 let db = new Localbase('db')
 export default {
   name: "CreateTest",
@@ -42,14 +43,12 @@ export default {
       if(this.nameTest && this.criterions.length) {
         this.formOk = true;
 
-
-
-
         let test = {
+          id:  uuid.v1(),
           name: this.nameTest,
           notation: serialize(this.criterions)
         };
-        db.collection('evaluation').add(test)
+        db.collection('evaluationModel').add(test)
         this.criterions = [];
         this.criterion = '';
         this.nameTest = '';
@@ -62,7 +61,7 @@ export default {
     addCriterion() {
       if(this.criterion) {
         this.formOkCriterion = true;
-        this.criterions.push(this.criterion)
+        this.criterions.push({name: this.criterion, note: 0 })
 
         this.criterion = ''
       }else{

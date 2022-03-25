@@ -1,7 +1,8 @@
 <template>
   <nav>
     <router-link class="nav" to="/">Accueil</router-link>
-    <router-link class="nav" to="/administration/evaluation">Créer une évaluation</router-link>
+    <router-link class="nav" to="/evaluation/creer">Commencer la notation</router-link>
+    <router-link class="nav" to="/administration/evaluation">Créer un modèle d'évaluation</router-link>
     <router-link class="nav" to="/administration/personne">Créer une liste de personne</router-link>
   </nav>
   <router-view></router-view>
