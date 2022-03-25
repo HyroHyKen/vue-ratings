@@ -11,7 +11,7 @@
     <option v-for="person in listPerson" :key="person.id" v-bind:value="person">{{ person.name }}</option>
   </select>
   <p v-else>aucune liste de personne</p>
-  <p v-if="!formOk" style="color: red; font-style: italic;">Veuillez choisir une évaluation et un groupe de personne</p>
+  <p v-if="!formOk" class="error">Veuillez choisir une évaluation et un groupe de personne</p>
   <button @click="createEvaluation">Valider</button>
 </template>
 

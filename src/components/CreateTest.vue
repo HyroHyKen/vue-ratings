@@ -15,8 +15,8 @@
     </li>
   </ul>
   <p v-else>aucun critère</p>
-  <p v-if="!formOk" style="color: red; font-style: italic;">Veuillez entrer un nom ou des critères pour ajouter une évaluation</p>
-  <p v-if="!formOkCriterion" style="color: red; font-style: italic;">Veuillez entrer un nom pour ajouter un nouveau critère</p>
+  <p class="error" v-if="!formOk" >Veuillez entrer un nom ou des critères pour ajouter une évaluation</p>
+  <p class="error" v-if="!formOkCriterion" >Veuillez entrer un nom pour ajouter un nouveau critère</p>
   <button @click="addNewTest"> valider </button>
 
 

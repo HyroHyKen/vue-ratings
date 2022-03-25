@@ -13,8 +13,8 @@
     </li>
   </ul>
   <p v-else>aucun critère</p>
-  <p v-if="!formOk" style="color: red; font-style: italic;">Veuillez entrer un nom et des personnes pour ajouter une liste de personne</p>
-  <p v-if="!formOkPerson" style="color: red; font-style: italic;">Veuillez entrer un nom et un prénom pour ajouter une personne</p>
+  <p class="error" v-if="!formOk" >Veuillez entrer un nom et des personnes pour ajouter une liste de personne</p>
+  <p class="error" v-if="!formOkPerson" >Veuillez entrer un nom et un prénom pour ajouter une personne</p>
   <button @click="importPerson">Importer la liste</button>
 </template>
 
