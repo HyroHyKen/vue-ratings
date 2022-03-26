@@ -1,7 +1,6 @@
 <template>
-
-  <button v-if="evaluation === ''" @click="begin(id)" > Commencer l'évaluation </button>
-  <div v-else >
+{{begin(id)}}
+  <div >
     <ul>
       <li v-for="(person,index) in evaluation.listPerson" :key="person.id">
         <a href="#" @click="choosePerson(index)">{{ person.name }} {{ person.firstName }} </a>
