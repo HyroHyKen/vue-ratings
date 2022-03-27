@@ -28,7 +28,7 @@
           <button @click="removePerson(person)" class="btn btn-danger">Supprimer</button>
         </li>
       </ul>
-      <p v-else>Aucun critère</p>
+      <p v-else>Aucune personne</p>
       <div class="alert alert-danger" role="alert" v-if="!formOk">
          Veuillez entrer un nom et des personnes pour ajouter une liste de personne
       </div>

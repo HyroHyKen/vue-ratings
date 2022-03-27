@@ -1,14 +1,17 @@
 <template>
   <div class="block">
     <div>
+      <h3>Liste des évaluations</h3>
       <ul v-if="listNotation.length">
         <li v-for="notation in listNotation" :key="notation.id">
           <a v-bind:href="'/evaluation/eval/' + notation.id"
             >{{ notation.nameTest }} {{ notation.nameListPerson }}
           </a>
+          <p v-if="!notation.finished">(en cours)</p>
+          <p v-else>(terminée)</p>
         </li>
       </ul>
-      <p v-else>Aucun critère</p>
+      <p v-else>Aucune évaluation</p>
     </div>
   </div>
 </template>

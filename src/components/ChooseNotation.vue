@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     createEvaluation() {
-      console.log(this.selectedTest);
       if (this.selectedTest !== "" && this.selectedPerson !== "") {
         this.formOk = true;
         let val = fonction.deserialize(this.selectedPerson.persons);
@@ -61,12 +60,13 @@ export default {
           id: uuid.v1(),
           nameTest: this.selectedTest.name,
           nameListPerson: this.selectedPerson.name,
+          finished: false,
           listPerson: fonction.serialize(group),
         };
         db.collection("evaluation").add(evaluation);
-        console.log(evaluation);
         this.selectedTest = [];
         this.selectedPerson = [];
+        this.$router.push("/");
       } else {
         this.formOk = false;
       }
