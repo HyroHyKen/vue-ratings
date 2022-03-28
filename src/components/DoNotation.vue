@@ -28,6 +28,7 @@
               {{ evaluation.listPerson[selected].mark[index].note }}
             </li>
           </ul>
+          moyenne : {{avg}}
           <div class="navigation">
             <button @click="previusPerson()" v-if="selected !=0" class="btn btn-primary"> Précédent  </button>
             <button @click="nextPerson()" v-if="selected != countPerson-1" class="btn btn-primary"> Suivant </button>
@@ -63,6 +64,7 @@
               {{ evaluation.listPerson[selected].mark[index].note }}
             </li>
           </ul>
+          moyenne : {{avg}}
           <div class="navigation">
             <button @click="previusPerson()" v-if="selected !=0" class="btn btn-primary"> Précédent  </button>
             <button @click="nextPerson()" v-if="selected != countPerson-1" class="btn btn-primary"> Suivant </button>
@@ -92,9 +94,6 @@ export default {
   },
 
   methods: {
-    test(){
-      console.log(this.evaluation.finished);
-    },
     previusPerson(){
       this.selected--
       if(this.selected < 0){
@@ -127,18 +126,28 @@ export default {
         this.save(id);
       }
     },
+    countMark(){
+      let count = 0
+      // eslint-disable-next-line no-unused-vars
+      for (let i in this.evaluation.listPerson[this.selected].mark) {
+        count++
+      }
+      return count
+    },
   },
   computed: {
     avg: function(){
-      console.log(this.evaluation.listPerson.length)
+
       let sum = 0
-      for(let i = 0; i < this.evaluation.listPerson.length; i++){
-        for(let j = 0; j < this.evaluation.listPerson[i].mark.length; j++){
-          sum += this.evaluation.listPerson[i].mark[j].note
+
+        for(let j = 0; j < this.countMark(); j++){
+          console.log(sum)
+          sum = parseInt(this.evaluation.listPerson[this.selected].mark[j].note)+sum
         }
-      }
-      return sum / (this.evaluation.listPerson.length * this.evaluation.listPerson[0].mark.length)
+
+      return sum / this.countMark()
     },
+
     countPerson(){
       let count = 0
       // eslint-disable-next-line no-unused-vars

@@ -17,7 +17,7 @@
         </option>
       </select>
       <p v-else>Aucune liste de personne</p>
-      <p v-if="!formOk" class="error">
+      <p v-if="!formOk" class="alert alert-danger" role="alert">
         Veuillez choisir une évaluation et un groupe de personne
       </p>
       <button @click="createEvaluation" class="btn btn-primary">Valider</button>

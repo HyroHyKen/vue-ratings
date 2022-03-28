@@ -28,10 +28,10 @@
         </li>
       </ul>
       <p v-else>Aucun critère</p>
-      <p class="error" v-if="!formOk">
+      <p class="alert alert-danger" role="alert" v-if="!formOk">
         Veuillez entrer un nom ou des critères pour ajouter une évaluation
       </p>
-      <p class="error" v-if="!formOkCriterion">
+      <p class="alert alert-danger" role="alert" v-if="!formOkCriterion">
         Veuillez entrer un nom pour ajouter un nouveau critère
       </p>
       <hr>
