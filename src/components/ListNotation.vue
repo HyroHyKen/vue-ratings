@@ -4,11 +4,10 @@
       <h3>Liste des évaluations</h3>
       <ul v-if="listNotation.length">
         <li v-for="notation in listNotation" :key="notation.id">
-          <a v-bind:href="'/evaluation/eval/' + notation.id"
-            >{{ notation.nameTest }} {{ notation.nameListPerson }}
-          </a>
+          <p>{{ notation.nameTest }} {{ notation.nameListPerson }}</p>
           <p v-if="!notation.finished">(en cours)</p>
           <p v-else>(terminée)</p>
+          <button @click="seeTest(notation.id)" class="btn btn-primary"> Voir </button>
         </li>
       </ul>
       <p v-else>Aucune évaluation</p>
@@ -25,6 +24,11 @@ export default {
     return {
       listNotation: [],
     };
+  },
+  methods: {
+    seeTest(id) {
+      this.$router.push('/evaluation/eval/'+ id)
+    },
   },
   created() {
     db.collection("evaluation")
